@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:html' as html;
+//import 'dart:html' as html;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -87,12 +87,12 @@ class FlutterSmsPlatform extends PlatformInterface {
         'iPod',
         'Mac OS X',
       ];
-      final _agent = html.window.navigator.userAgent;
-      for (final device in _devices) {
-        if (_agent.contains(device)) {
-          return true;
-        }
-      }
+//      final _agent = html.window.navigator.userAgent;
+//      for (final device in _devices) {
+//        if (_agent.contains(device)) {
+//          return true;
+//        }
+//      }
       return false;
     }
     return Platform.isIOS || Platform.isMacOS;

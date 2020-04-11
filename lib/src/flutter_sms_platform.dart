@@ -37,9 +37,7 @@ class FlutterSmsPlatform extends PlatformInterface {
     @required List<String> recipients,
     bool background = true,
   }) async {
-    PermissionStatus permission = await Permission.sms.status;
-
-    if (permission == PermissionStatus.granted) {
+    if (await Permission.sms.request().isGranted) {
       var mapData = Map<dynamic, dynamic>();
       mapData["message"] = message;
       if (!kIsWeb && Platform.isIOS) {

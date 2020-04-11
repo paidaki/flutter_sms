@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:location_permissions/location_permissions.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -37,7 +37,7 @@ class FlutterSmsPlatform extends PlatformInterface {
     @required List<String> recipients,
     bool background = true,
   }) async {
-    PermissionStatus permission = await LocationPermissions().requestPermissions();
+    PermissionStatus permission = await Permission.sms.status;
 
     if (permission == PermissionStatus.granted) {
       var mapData = Map<dynamic, dynamic>();

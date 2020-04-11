@@ -35,7 +35,7 @@ class FlutterSmsPlatform extends PlatformInterface {
   Future<String> sendSMS({
     @required String message,
     @required List<String> recipients,
-    bool background = true,
+    bool background = false,
   }) async {
     if (await Permission.sms.request().isGranted) {
       var mapData = Map<dynamic, dynamic>();

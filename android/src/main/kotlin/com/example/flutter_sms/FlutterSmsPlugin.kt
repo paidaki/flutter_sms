@@ -92,9 +92,12 @@ class FlutterSmsPlugin(registrar: Registrar) : MethodCallHandler {
     private fun sendBackgroundSMS(result: Result, phones: String?, message: String?) {
         try {
             val smsManager: SmsManager = SmsManager.getDefault()
+
             smsManager.sendTextMessage(phones, null, message, null, null)
         } catch (ex: Exception) {
             ex.printStackTrace()
+
+            addSmsNotSupportedError(result)
         }
     }
 

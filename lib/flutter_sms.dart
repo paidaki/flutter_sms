@@ -9,8 +9,22 @@ Future<String> sendSMS({
   @required String message,
   @required List<String> recipients,
 }) =>
-    FlutterSmsPlatform.instance
-        .sendSMS(message: message, recipients: recipients);
+    FlutterSmsPlatform.instance.sendSMS(
+      message: message,
+      recipients: recipients,
+      background: false,
+    );
+
+/// Send background SMS on iOS/Android/Web
+Future<String> sendBackgroundSMS({
+  @required String message,
+  @required List<String> recipients,
+}) =>
+    FlutterSmsPlatform.instance.sendSMS(
+      message: message,
+      recipients: recipients,
+      background: true,
+    );
 
 /// Launch SMS Url Scheme on all platforms
 Future<bool> launchSms({

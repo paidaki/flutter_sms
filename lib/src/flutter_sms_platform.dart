@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:location_permissions/location_permissions.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -34,16 +35,27 @@ class FlutterSmsPlatform extends PlatformInterface {
   Future<String> sendSMS({
     @required String message,
     @required List<String> recipients,
-  }) {
-    var mapData = Map<dynamic, dynamic>();
-    mapData["message"] = message;
-    if (!kIsWeb && Platform.isIOS) {
-      mapData["recipients"] = recipients;
-      return _channel.invokeMethod<String>('sendSMS', mapData);
+    bool background = true,
+  }) async {
+    PermissionStatus permission = await LocationPermissions().requestPermissions();
+
+    if (permission == PermissionStatus.granted) {
+      var mapData = Map<dynamic, dynamic>();
+      mapData["message"] = message;
+      if (!kIsWeb && Platform.isIOS) {
+        mapData["recipients"] = recipients;
+        return background
+            ? _channel.invokeMethod<String>('sendBackgroundSMS', mapData)
+            : _channel.invokeMethod<String>('sendSMS', mapData);
+      } else {
+        String _phones = recipients.join(",");
+        mapData["recipients"] = _phones;
+        return background
+            ? _channel.invokeMethod<String>('sendBackgroundSMS', mapData)
+            : _channel.invokeMethod<String>('sendSMS', mapData);
+      }
     } else {
-      String _phones = recipients.join(",");
-      mapData["recipients"] = _phones;
-      return _channel.invokeMethod<String>('sendSMS', mapData);
+      return "Access denied";
     }
   }
 

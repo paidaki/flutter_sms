@@ -16,9 +16,9 @@ class FlutterSmsPlugin extends FlutterSmsPlatform {
   Future<String> sendSMS({
     @required String message,
     @required List<String> recipients,
+    bool background = true,
   }) async {
-    bool _messageSent =
-        await FlutterSmsPlatform.instance.launchSmsMulti(recipients, message);
+    bool _messageSent = await FlutterSmsPlatform.instance.launchSmsMulti(recipients, message);
     if (_messageSent) return 'Message Sent!';
     return 'Error Sending Message!';
   }
